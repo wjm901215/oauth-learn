@@ -1,6 +1,8 @@
 package com.spiderman.security.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,6 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class LoginController {
+
+    /**
+     * 登录成功
+     */
+    @RequestMapping(value = "/loginSuccess",produces = { MediaType.TEXT_PLAIN_VALUE})
+    public String success() {
+
+        return "登录成功";
+    }
 
     /**
      * 测试资源1 * @return

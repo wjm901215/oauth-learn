@@ -1,12 +1,12 @@
 server:
   port: 8080
   servlet:
-    context‐path: /security‐springboot
+    context‐path: /security
+
 spring:
-  mvc:
-    #试图解析器
-    view:
-      prefix: /WEB‐INF/views/
-      suffix: .jsp
   application:
-    name: security‐springboot
+    name: security
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp

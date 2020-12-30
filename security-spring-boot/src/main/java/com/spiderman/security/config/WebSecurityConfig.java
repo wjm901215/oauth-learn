@@ -1,14 +1,8 @@
 package com.spiderman.security.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
  * 安全配置
@@ -18,7 +12,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 配置用户信息服务
      */
-    @Override
+    /*@Override
     @Bean
     public UserDetailsService userDetailsService() {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -27,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         manager.createUser(User.withUsername("lisi").password(encoder.encode("456")).authorities("p2").build());
 
         return manager;
-    }
+    }*/
 
     /**
      * 配置安全拦截机制
@@ -36,8 +30,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/r/**")
-                .authenticated()
+                //访问/r/r1资源的 url需要拥有p1权限。
+                .antMatchers("/r/r1").hasAuthority("p1")
+                //访问/r/r2资源的 url需要拥有p2权限。
+                .antMatchers("/r/r2").hasAuthority("p2")
+                .antMatchers("/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin().successForwardUrl("/login‐success");

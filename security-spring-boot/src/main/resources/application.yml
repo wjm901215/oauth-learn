@@ -10,3 +10,8 @@ spring:
     view:
       prefix: /WEB-INF/view/
       suffix: .jsp
+  datasource:
+    url: jdbc:mysql://192.168.8.170:3306/user_db
+    username: neusense
+    password: Neusense123#@!
+    driver-class-name: com.mysql.jdbc.Driver

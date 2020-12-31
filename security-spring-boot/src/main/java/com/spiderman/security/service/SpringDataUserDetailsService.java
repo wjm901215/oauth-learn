@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 自定义UserDetailService
  */
@@ -20,22 +22,19 @@ public class SpringDataUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        //登录账号 System.out.println("username="+username); //根据账号去数据库查询... //这里暂时使用静态数据
-//        String password="$2a$10$pApu4N5q.NFos50QBLuWjOCRgSe5v0fuXzHiIrMFRT4OfgshdatQa";
-//        UserDetails userDetails =
-//                User.withUsername(username).password(password).authorities("p1").build();
-//        return userDetails;
-
         //登录账号
         System.out.println("username=" + username);
         UserDto user = userDao.getUserByUsername(username);
         if (user == null) {
             return null;
         }
-        //这里暂时使用静态数据
+        //查询用户权限
+        List<String> permissions = userDao.findPermissionsByUserId(user.getId());
+        String[] perarray = new String[permissions.size()];
+        permissions.toArray(perarray);
+        //创建userDetails
         UserDetails userDetails =
-                User.withUsername(user.getFullname()).password(user.getPassword()).authorities("p1").build();
+                User.withUsername(user.getFullname()).password(user.getPassword()).authorities(perarray).build();
         return userDetails;
     }
 }

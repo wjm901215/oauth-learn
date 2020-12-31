@@ -2,6 +2,8 @@ server:
   port: 8080
   servlet:
     context‐path: /security
+    session:
+      timeout: 3600
 
 spring:
   application:

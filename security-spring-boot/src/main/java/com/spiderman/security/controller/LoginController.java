@@ -1,10 +1,15 @@
 package com.spiderman.security.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -17,6 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
+    @RequestMapping("/login/invalid")
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String invalid() {
+        return "Session 已过期，请重新登录";
+    }
     /**
      * 登录成功
      */
@@ -32,7 +42,7 @@ public class LoginController {
     @GetMapping(value = "/r/r1")
     public String r1() {
 
-        return " 访问资源1";
+        return getUsername()+" 访问资源1";
     }
 
     /**
@@ -40,7 +50,27 @@ public class LoginController {
      */
     @GetMapping(value = "/r/r2")
     public String r2() {
-        return " 访问资源2";
+        return getUsername()+" 访问资源2";
+    }
+
+    /**
+     * 测试资源3 * @return
+     */
+    @GetMapping(value = "/r/r3")
+    public String r3() {
+        return getUsername()+" 访问资源3";
+    }
+
+
+    /**
+     * 测试资源3 * @return
+     * 增加方法授权注解，@PreAuthorize
+     */
+    @GetMapping(value = "/r/r4")
+//    @Secured(AuthenticatedVoter.IS_AUTHENTICATED_FULLY)
+    @PreAuthorize("hasAuthority('p4')")
+    public String r4() {
+        return " 方法授权测试";
     }
 
     /**

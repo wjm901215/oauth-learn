@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 安全拦截机制（最重要）
+     * 安全拦截机制（最重要）f
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {

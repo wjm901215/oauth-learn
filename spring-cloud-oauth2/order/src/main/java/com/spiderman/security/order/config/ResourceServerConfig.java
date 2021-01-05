@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 
 /**
  * 资源服务器配置
- * <p>具体说明</p>
  *
  * @author SpiderMan
  * @version 1.0.0: com.spiderman.security.order.config.ResouceServerConfig,v 0.1 2020-09-04 17:36 Exp $$
@@ -27,11 +26,20 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
         resources
+                //这个资源服务的ID，这个属性是可选的，但是推荐设置并在授权服务中进行验证。 其他的拓展属性例如 tokenExtractor 令牌提取器用来提取请求中的令牌
                 .resourceId(RESOURCE_ID)
+                //ResourceServerTokenServices 类的实例，用来实现令牌服务
                 .tokenServices(tokenService())
                 .stateless(true);
     }
 
+    /**
+     * 请求匹配器，用来设置需要进行保护的资源路径，默认的情况下是保护资源服务的全部路径。
+     * 通过http.authorizeRequests()来设置受保护资源的访问规则
+     * 其他的自定义权限保护规则通过 HttpSecurity 来进行配置。
+     * @param http
+     * @throws Exception
+     */
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http

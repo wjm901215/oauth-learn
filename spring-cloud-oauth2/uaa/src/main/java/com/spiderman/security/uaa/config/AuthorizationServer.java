@@ -82,7 +82,8 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         endpoints
                 .authenticationManager(authenticationManager)
                 .authorizationCodeServices(authorizationCodeServices)
-                .tokenServices(tokenService()).allowedTokenEndpointRequestMethods(HttpMethod.POST);
+                .tokenServices(tokenService())
+                .allowedTokenEndpointRequestMethods(HttpMethod.POST);
     }
 
     /**
@@ -92,8 +93,11 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security
+                //tokenkey这个endpoint当使用JwtToken且使用非对称加密时，资源服务用于获取公钥而开放的，这里指这个 endpoint完全公开。
                 .tokenKeyAccess("permitAll()")
+                //checkToken这个endpoint完全公开
                 .checkTokenAccess("permitAll()")
+                //允许表单验证
                 .allowFormAuthenticationForClients();
     }
 

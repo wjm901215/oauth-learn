@@ -1,4 +1,4 @@
-package com.spiderman.security.uaa.config;
+package com.spiderman.security.order.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
